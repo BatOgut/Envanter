@@ -1,6 +1,8 @@
 # Envanter
 Envanter
 
+# NOTTTTT:
+## 'def multipl_q()' ve 'def up()' 
 
 # Test etmeni istediğim şeyler
 
