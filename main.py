@@ -141,7 +141,7 @@ class Window(QtWidgets.QWidget):
         sn = self.le_sn.text()
         q = int(self.le_q.text())
         nu = q + self.num
-        self.cursor.execute("Update data set q = ? where model = ?", (nu,sn,))
+        self.cursor.execute("UPDATE data SET q = ? WHERE model = ?", (nu,sn,))
         self.con.commit()
 
 
