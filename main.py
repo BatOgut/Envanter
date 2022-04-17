@@ -116,32 +116,18 @@ class Window(QtWidgets.QWidget):
 
             self.cursor.execute("SELECT * FROM data where device = ? and model = ?",(dn,sn,))
 
-            self.num =self.cursor.fetchall()[2]
-
-            if(len(self.num) == 0):
-                pass
-            else:
-                self.up()
-        except TypeError:
-            print("TE")
-        except ValueError:
-            print("VE")
-        except NameError:
-            print("NE")
-        except SyntaxError:
-            print("SE")
-        except sqlite3.Error as error:
-            print("Failed to update sqlite table", error)
-        finally:
-
-            print("The SQLite connection is closed")
-
-    def up(self ):
-        #dn = self.le_dn.text()
+            self.num =self.cursor.fetchall()
+            self.qq = self.num[0][2]
+            print(self.qq)
+            self.up()
+        except:
+            print("Hata")
+    def up(self):
+        dn = self.le_dn.text()
         sn = self.le_sn.text()
         q = int(self.le_q.text())
-        nu = q + self.num
-        self.cursor.execute("UPDATE data SET q = ? WHERE model = ?", (nu,sn,))
+        nu = q + self.qq
+        self.cursor.execute("UPDATE data SET q = ? WHERE model = ? and device = ?", (nu,sn,dn,))
         self.con.commit()
 
 
@@ -152,7 +138,38 @@ class Window(QtWidgets.QWidget):
 
 
     def dell(self):
-        print("Del func called")
+
+        try:
+            dn = self.le_dn.text()
+            sn = self.le_sn.text()
+            q = int(self.le_q.text())
+
+            self.cursor.execute("SELECT * FROM data where device = ? and model = ?", (dn, sn,))
+
+            self.numm = self.cursor.fetchall()
+            self.qqq = self.numm[0][2]
+            print(self.qqq)
+            self.down()
+        except:
+            print("Hata")
+
+
+    def down(self):
+        dn = self.le_dn.text()
+        sn = self.le_sn.text()
+        q = int(self.le_q.text())
+        nu =  self.qqq - q
+        if(nu < self.qqq):
+            self.cursor.execute("UPDATE data SET q = ? WHERE model = ? and device = ?", (nu,sn,dn,))
+            self.con.commit()
+        elif(nu == self.qqq):
+            self.cursor.execute("Delete From data Where device = ? and model = ?",(dn,sn,))
+            self.con.commit()
+
+        elif(nu > self.qqq):
+
+
+
     def read(self):
         print("Read func called")
 
